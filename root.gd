@@ -12,6 +12,11 @@ func transform_to_global_coords ( coords: Vector2 ) -> Vector2:
 
 func _ready():
 	actors.add_child(player.instance())
+	for x in range(-10, 11):
+		for y in range(-10, 11):
+			var tile_instance = tile.instance()
+			tile_instance.translate(Vector2(x, y) * STEP)
+			tiles.add_child(tile_instance)
 	pass
 	
 func _process(delta):
@@ -23,6 +28,6 @@ func _input(event):
 	if event is InputEventMouseButton:
 		print("Mouse Click/Unclick at: ", event.position)
 		var tile_instance = tile.instance()
-		tile_instance.translate(event.position)
+		tile_instance.translate(transform_to_global_coords(event.position) * STEP)
 		tiles.add_child(tile_instance)
 
